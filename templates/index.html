@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Legal Clause Risk Analyzer</title>
+  </head>
+  <body>
+    <h1>Legal Clause Risk Analyzer</h1>
+    <form action="/" method="post" enctype="multipart/form-data">
+      <input type="file" name="image">
+      <input type="submit" value="Upload">
+    </form>
+    {% if clauses %}
+    <h2>Classified Clauses:</h2>
+    <ul>
+      {% for clause, result in zip(clauses, result) %}
+      <li><b>{{ clause }}</b> - <i>{{ result }}</i></li>
+      {% endfor %}
+    </ul>
+    <h2>Document Summary:</h2>
+    <p>Summary : <b>{{Summary_Text1}}</b></p>
+    <p>Summary Analyse: <b>{{S_A}}</b></p>
+    {% endif %}
+
+
+    <h1>Upload PDF</h1>
+    <form action="/pdf" method="post" enctype="multipart/form-data">
+      <input type="file" name="pdf_file">
+      <input type="submit" value="Summarize and Classify">
+    </form>
+
+    {% if summarizing_pdf %}
+      <h3>Summarized PDF:</h3>
+      <p>{{ summarizing_pdf }}</p>
+      <h3>Classification:</h3>
+      <p>{{ Text3 }}</p>
+    {% endif %}
+
+  </body>
+</html>
+
