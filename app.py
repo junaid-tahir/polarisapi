@@ -27,9 +27,12 @@ def gpt3(stext):
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
+    print("index")
     if request.method == 'POST':
-        print("")
+        print("12121")
         file = request.form.files['image']
+         print("file api")
+        print(file)
         # Save the uploaded file to a temporary location
         file.save('temp.jpg')
 
