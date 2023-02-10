@@ -30,7 +30,7 @@ def index():
     if request.method == 'POST':
         
         img = request.get_json(force=True)['image']
-        
+        print(img)
         # ...
         # OCR the image
         text = pytesseract.image_to_string(img)
