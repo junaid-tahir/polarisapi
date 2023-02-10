@@ -1,4 +1,4 @@
-python=3.9
+python==3.9
 Flask==2.1.0
 opencv-python==4.5.0
 pytesseract==0.3.5
