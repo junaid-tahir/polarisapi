@@ -1,11 +1,12 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, render_template, request
+import cv2
 import pytesseract
-# from PyPDF2 import PdfReaderk
+from PyPDF2 import PdfReader
 import openai
 from itertools import zip_longest
 
 app = Flask(__name__)
-openai.api_key='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'
+openai.api_key='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'
 
 
 def gpt3(stext):
@@ -26,12 +27,18 @@ def gpt3(stext):
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
-    print("Hello")
     if request.method == 'POST':
-        
-        img = request.get_json(force=True)['image']
-        print(img)
+        print("post")
+        file = request.form.files['image']
+        print(file)
+        # Save the uploaded file to a temporary location
+        file.save('temp.jpg')
+
+        # Load the image
+        img = cv2.imread('temp.jpg')
+
         # ...
+
         # OCR the image
         text = pytesseract.image_to_string(img)
 
@@ -120,11 +127,10 @@ def index():
             if(len(Summary_Text1)>250):
                 break
 
-        return jsonify(clauses=list2, result=FINAL_RESULT, S_O=summary_output, S_A=Summary_Analyse,Summary_Text1=Summary_Text1, zip=zip_longest)
-    
-    return jsonify()
+        return render_template('index.html', clauses=list2, result=FINAL_RESULT, S_O=summary_output, S_A=Summary_Analyse,Summary_Text1=Summary_Text1, zip=zip_longest)
 
 
+    return render_template('index.html')
 
 
 def gpt3(stext):
@@ -136,23 +142,21 @@ def gpt3(stext):
         frequency_penalty=0,
         presence_penalty=0
         )
+    
     content=response.choices[0].text.split('.')
     #print(content)
     return response.choices[0].text
 
-# @app.route("/pdf", methods=["GET", "POST"])
-# def check():
+@app.route("/pdf", methods=["GET", "POST"])
+def check():
     if request.method == "POST":
         file = request.files["pdf_file"]
-        
         pdf_reader = PdfReader(file)
-        
         text = ""
         for page in pdf_reader.pages:
             text += page.extract_text()
             if(len(text)>2000):
                 break
-        print(text)
 
         sumarize='Sumarize it'
         summarizing_pdf=gpt3(sumarize+text)
@@ -173,7 +177,12 @@ def gpt3(stext):
                 Text3='SAFE'
                 break
 
-        return render_template('index.html',summarizing_pdf=summarizing_pdf, Text3=Text3)
-    return render_template('index.html')
-# if _name_ == '__main__':
+        return render_template("index.html", summarizing_pdf=summarizing_pdf, Text3=Text3)
+
+    return render_template("index.html")
+
+# if __name__ == '__main__':
 #     app.run(debug=True)
+
+
+
