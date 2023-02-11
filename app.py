@@ -29,10 +29,11 @@ def gpt3(stext):
 def index():
     print("index")
     if request.method == 'POST':
-        print("12121")
+        print("post api")
         file = request.form.files['image']
-         print("file api")
-        print(file)
+          print("in post image")
+         print(file)
+         print("after post image")
         # Save the uploaded file to a temporary location
         file.save('temp.jpg')
 
