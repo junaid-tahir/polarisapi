@@ -31,10 +31,8 @@ def index():
     if request.method == 'POST':
         print("post api")
         file = request.form.files['image']
-        print("in post image")
         # Save the uploaded file to a temporary location
         file.save('temp.jpg')
-        print("after post image")
         # Load the image
         img = cv2.imread('temp.jpg')
 
