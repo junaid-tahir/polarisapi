@@ -1,11 +1,10 @@
-<!DOCTYPE html>
 <html>
   <head>
     <title>Legal Clause Risk Analyzer</title>
   </head>
   <body>
     <h1>Legal Clause Risk Analyzer</h1>
-    <form action="/" method="post" enctype="multipart/form-data">
+    <form action="{{ url_for('index')}}" method="post" enctype="multipart/form-data">
       <input type="file" name="image">
       <input type="submit" value="Upload">
     </form>
@@ -37,4 +36,3 @@
 
   </body>
 </html>
-
